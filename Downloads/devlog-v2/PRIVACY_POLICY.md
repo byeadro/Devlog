@@ -25,7 +25,7 @@ Devlog stores the following data locally in your browser (Chrome storage):
 
 ## Data storage
 
-All journal data is stored in Google Cloud Firestore under your authenticated user account. Each user's data is isolated — no one else can read or write your entries. Your data is yours.
+All journal data is stored in Google Cloud Firestore under your authenticated user account. Each user's data is isolated — no one else can read or write your entries.
 
 ## Data deletion
 
@@ -33,5 +33,4 @@ You can delete individual entries at any time within the extension. To delete yo
 
 ## Contact
 
-If you have questions about this privacy policy, contact:
 Adrian Bond — adrianbond@myembra.com
