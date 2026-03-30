@@ -1,0 +1,7 @@
+/* Popup-specific sizing and overrides */
+
+html, body {
+  width: 400px;
+  height: 480px;
+  overflow: hidden;
+}

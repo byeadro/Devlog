@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="shared/shared.css">
+  <link rel="stylesheet" href="tab.css">
+  <title>Devlog</title>
+</head>
+<body>
+
+  <!-- AUTH -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-container">
+      <div class="auth-mark">/</div>
+      <h1 class="auth-title">Devlog</h1>
+      <p class="auth-sub">Your journal. Your dev log.<br>Everything in one place.</p>
+      <div id="auth-form" class="auth-form">
+        <input type="email" id="auth-email" class="auth-input" placeholder="email" autocomplete="email">
+        <input type="password" id="auth-password" class="auth-input" placeholder="password" autocomplete="current-password">
+        <button id="btn-login" class="btn-primary">Sign in</button>
+        <button id="btn-signup" class="btn-ghost">Create account</button>
+        <button id="btn-forgot" class="btn-link">Forgot password?</button>
+        <p id="auth-error" class="auth-error"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="app-screen" class="screen">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <span class="topbar-mark">/</span>
+          <span class="topbar-title">devlog</span>
+        </div>
+        <button id="nav-write" class="nav-btn active" data-view="write">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11.5V14h2.5l7.37-7.37-2.5-2.5L2 11.5zm11.81-6.81a.664.664 0 000-.94l-1.56-1.56a.664.664 0 00-.94 0l-1.22 1.22 2.5 2.5 1.22-1.22z" fill="currentColor"/></svg>
+          <span>Write</span>
+        </button>
+        <button id="nav-feed" class="nav-btn" data-view="feed">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3h12v1.5H2V3zm0 4h12v1.5H2V7zm0 4h8v1.5H2V11z" fill="currentColor"/></svg>
+          <span>Feed</span>
+        </button>
+        <button id="nav-timeline" class="nav-btn" data-view="timeline">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M4 4h8M4 8h8M4 12h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span>Timeline</span>
+        </button>
+        <button id="nav-pinned" class="nav-btn" data-view="pinned">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.828 1.172a2 2 0 012.828 0l2.172 2.172a2 2 0 010 2.828L12 9l-1 5-4-4-5.5 5.5L3 14l4-4-4-4 5-1 2.828-2.828z" fill="currentColor"/></svg>
+          <span>Pinned</span>
+        </button>
+        <button id="nav-search" class="nav-btn" data-view="search">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Search</span>
+        </button>
+        <button id="nav-stats" class="nav-btn" data-view="stats">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="9" width="3" height="5" rx="0.5" fill="currentColor"/><rect x="6.5" y="5" width="3" height="9" rx="0.5" fill="currentColor"/><rect x="11" y="2" width="3" height="12" rx="0.5" fill="currentColor"/></svg>
+          <span>Stats</span>
+        </button>
+      </div>
+      <div class="sidebar-notebooks" id="sidebar-notebooks">
+        <div class="notebooks-header">
+          <span class="notebooks-title">Notebooks</span>
+          <button id="btn-add-notebook" class="notebooks-add" title="New notebook">+</button>
+        </div>
+        <div id="notebook-list" class="notebook-list"></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="theme-selector">
+          <button class="theme-dot" data-theme="warm-dark" title="Warm Dark" style="background:#C9A96E;"></button>
+          <button class="theme-dot" data-theme="midnight" title="Midnight Blue" style="background:#58A6FF;"></button>
+          <button class="theme-dot" data-theme="forest" title="Forest" style="background:#7CB87C;"></button>
+          <button class="theme-dot" data-theme="light" title="Light" style="background:#B8860B;"></button>
+        </div>
+        <div class="font-selector">
+          <button class="font-btn" data-font="literata" title="Literata">Aa</button>
+          <button class="font-btn" data-font="merriweather" title="Merriweather">Aa</button>
+          <button class="font-btn" data-font="sourceserif" title="Source Serif">Aa</button>
+          <button class="font-btn" data-font="jetbrains" title="JetBrains Mono">Aa</button>
+          <button class="font-btn" data-font="lora" title="Lora">Aa</button>
+        </div>
+        <button id="nav-export" class="nav-btn" data-view="export">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M3 12h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Export</span>
+        </button>
+        <button id="btn-signout" class="nav-btn signout-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10.5 11.5L14 8l-3.5-3.5M14 8H6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          <span>Sign out</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Content area -->
+    <main class="content">
+
+      <!-- WRITE -->
+      <div id="view-write" class="view active">
+        <div class="view-header">
+          <h2 class="view-heading">New Entry</h2>
+          <div class="view-header-right">
+            <button id="btn-split-toggle" class="tab-btn" title="Toggle preview">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="6" height="12" rx="1" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="9" y="2" width="6" height="12" rx="1" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+            </button>
+            <span class="write-date" id="write-date"></span>
+          </div>
+        </div>
+        <div id="name-prompt" class="name-prompt" style="display:none;">
+          <p class="name-prompt-label">What should I call you?</p>
+          <div class="name-prompt-row">
+            <input type="text" id="name-input" class="auth-input name-input" placeholder="Your name">
+            <button id="btn-save-name" class="btn-save">Save</button>
+          </div>
+        </div>
+        <div id="greeting" class="greeting" style="display:none;"></div>
+        <div class="template-row" id="template-row">
+          <button class="template-btn" data-template="standup" title="Standup">📋</button>
+          <button class="template-btn" data-template="idea" title="Idea">💡</button>
+          <button class="template-btn" data-template="bug" title="Bug">🐛</button>
+          <button class="template-btn" data-template="rant" title="Rant">🔥</button>
+        </div>
+        <div class="timer-bar" id="timer-bar">
+          <div class="timer-presets" id="timer-presets">
+            <button class="timer-preset" data-minutes="5">5m</button>
+            <button class="timer-preset" data-minutes="10">10m</button>
+            <button class="timer-preset" data-minutes="15">15m</button>
+            <button class="timer-preset" data-minutes="25">25m</button>
+          </div>
+          <div class="timer-active" id="timer-active" style="display:none;">
+            <span class="timer-display" id="timer-display">25:00</span>
+            <button class="timer-cancel" id="timer-cancel">&#x2715;</button>
+          </div>
+        </div>
+        <div id="draft-indicator" class="draft-indicator">Draft restored</div>
+        <div class="format-toolbar" id="format-toolbar">
+          <button class="fmt-btn" data-action="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
+          <button class="fmt-btn" data-action="italic" title="Italic (Ctrl+I)"><em>I</em></button>
+          <button class="fmt-btn" data-action="heading" title="Heading">H</button>
+          <button class="fmt-btn" data-action="code" title="Code">&lt;/&gt;</button>
+          <button class="fmt-btn" data-action="checklist" title="Checklist">&#9744;</button>
+          <button class="fmt-btn" data-action="list" title="List">&#8226;</button>
+          <button class="fmt-btn" data-action="divider" title="Divider">&#8212;</button>
+          <button class="fmt-btn" data-action="link" title="Link">&#128279;</button>
+        </div>
+        <div id="split-container" class="split-container">
+          <textarea id="write-area" class="write-area tab-write-area" placeholder="Write something..." autofocus></textarea>
+          <div id="preview-pane" class="preview-pane" style="display:none;"></div>
+        </div>
+        <div class="ambient-bar">
+          <button class="ambient-btn" data-sound="silence" title="Off">🔇</button>
+          <button class="ambient-btn" data-sound="rain" title="Rain">🌧️</button>
+          <button class="ambient-btn" data-sound="lofi" title="Lo-fi">🎵</button>
+          <button class="ambient-btn" data-sound="cafe" title="Cafe">☕</button>
+          <input type="range" class="ambient-volume" min="0" max="100" value="30">
+        </div>
+        <div class="write-footer">
+          <div class="footer-left">
+            <div class="tag-input-row">
+              <span class="tag-icon">#</span>
+              <input type="text" id="tag-input" class="tag-input" placeholder="tags (comma separated)">
+            </div>
+            <span id="word-count" class="word-count">0 words</span>
+            <select id="write-notebook" class="tag-filter-select" style="width:auto;font-size:10px;"><option value="">No notebook</option></select>
+          </div>
+          <button id="btn-save-template" class="tab-btn" title="Save as template">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <button id="btn-save" class="btn-save" disabled>Save entry</button>
+        </div>
+        <div id="template-save-form" class="template-save-form" style="display:none;">
+          <input type="text" id="tpl-name" class="auth-input" placeholder="Template name">
+          <input type="text" id="tpl-icon" class="auth-input tpl-icon-input" placeholder="Icon" value="📝">
+          <button id="btn-confirm-template" class="btn-save" style="height:30px;font-size:11px;">Save</button>
+        </div>
+        <div id="toast" class="toast">Saved</div>
+      </div>
+
+      <!-- FEED -->
+      <div id="view-feed" class="view">
+        <div class="feed-header">
+          <div class="feed-title" id="feed-title">All entries</div>
+          <button id="btn-toggle-filters" class="tab-btn" title="Filters">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3h12M4 7h8M6 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span id="filter-count" class="filter-badge" style="display:none;">0</span>
+          </button>
+        </div>
+        <div id="filter-panel" class="filter-panel" style="display:none;">
+          <div class="filter-row">
+            <label class="filter-label">Date</label>
+            <input type="date" id="filter-date-from" class="filter-date">
+            <span class="filter-separator">to</span>
+            <input type="date" id="filter-date-to" class="filter-date">
+          </div>
+          <div class="filter-row">
+            <label class="filter-label">Tags</label>
+            <div id="filter-tags" class="filter-tags-wrap"></div>
+          </div>
+          <div class="filter-row">
+            <label class="filter-label">Length</label>
+            <select id="filter-length" class="tag-filter-select">
+              <option value="">Any</option>
+              <option value="short">Short (&lt;100 words)</option>
+              <option value="medium">Medium (100-500)</option>
+              <option value="long">Long (500+)</option>
+            </select>
+          </div>
+          <div class="filter-row">
+            <label class="filter-label">Contains</label>
+            <label class="filter-check"><input type="checkbox" id="filter-has-code"> Code</label>
+            <label class="filter-check"><input type="checkbox" id="filter-has-link"> Links</label>
+            <label class="filter-check"><input type="checkbox" id="filter-has-checklist"> Checklists</label>
+          </div>
+          <div class="filter-actions">
+            <button id="btn-apply-filters" class="btn-save" style="font-size:11px;height:28px;padding:0 12px;">Apply</button>
+            <button id="btn-clear-filters" class="btn-link">Clear all</button>
+          </div>
+        </div>
+        <div id="feed-list" class="feed-list"></div>
+        <button id="btn-load-more" class="btn-load-more" style="display:none;">Load more</button>
+        <div id="feed-empty" class="feed-empty" style="display:none;">No entries yet. Start writing.</div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div id="view-timeline" class="view">
+        <div class="feed-header">
+          <div class="feed-title">Timeline</div>
+        </div>
+        <div id="timeline-container" class="timeline-container"></div>
+      </div>
+
+      <!-- PINNED -->
+      <div id="view-pinned" class="view">
+        <div class="feed-header">
+          <div class="feed-title">Pinned entries</div>
+        </div>
+        <div id="pinned-list" class="feed-list"></div>
+        <div id="pinned-empty" class="feed-empty" style="display:none;">No pinned entries.</div>
+      </div>
+
+      <!-- SEARCH -->
+      <div id="view-search" class="view">
+        <div class="search-bar">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search entries...">
+        </div>
+        <div id="search-results" class="feed-list"></div>
+        <div id="search-empty" class="feed-empty" style="display:none;">No results found.</div>
+      </div>
+
+      <!-- STATS -->
+      <div id="view-stats" class="view">
+        <div class="feed-header">
+          <div class="feed-title">Your stats</div>
+        </div>
+        <div class="stats-scroll">
+          <div id="stats-grid" class="stats-grid"></div>
+          <div id="heatmap-container" class="heatmap-container"></div>
+        </div>
+      </div>
+
+      <!-- EXPORT -->
+      <div id="view-export" class="view">
+        <div class="feed-header">
+          <div class="feed-title">Export your data</div>
+        </div>
+        <div class="export-row">
+          <button id="btn-export-json" class="btn-ghost">Export as JSON</button>
+          <button id="btn-export-md" class="btn-ghost">Export as Markdown</button>
+        </div>
+        <p class="feed-empty">All entries will be exported. Your data is yours.</p>
+      </div>
+
+    </main>
+
+    <!-- EDIT MODAL -->
+    <div id="edit-modal" class="modal">
+      <div class="modal-content modal-centered">
+        <div class="modal-header">
+          <span class="modal-title">Edit entry</span>
+          <button id="btn-modal-close" class="modal-close">&times;</button>
+        </div>
+        <div class="format-toolbar" id="edit-format-toolbar">
+          <button class="fmt-btn" data-action="bold" title="Bold"><strong>B</strong></button>
+          <button class="fmt-btn" data-action="italic" title="Italic"><em>I</em></button>
+          <button class="fmt-btn" data-action="heading" title="Heading">H</button>
+          <button class="fmt-btn" data-action="code" title="Code">&lt;/&gt;</button>
+          <button class="fmt-btn" data-action="checklist" title="Checklist">&#9744;</button>
+          <button class="fmt-btn" data-action="list" title="List">&#8226;</button>
+          <button class="fmt-btn" data-action="divider" title="Divider">&#8212;</button>
+          <button class="fmt-btn" data-action="link" title="Link">&#128279;</button>
+        </div>
+        <textarea id="edit-area" class="write-area tab-write-area"></textarea>
+        <div class="write-footer">
+          <div class="footer-left">
+            <div class="tag-input-row">
+              <span class="tag-icon">#</span>
+              <input type="text" id="edit-tag-input" class="tag-input" placeholder="tags">
+            </div>
+            <label class="pin-toggle">
+              <input type="checkbox" id="edit-pinned"> Pin
+            </label>
+            <select id="edit-notebook" class="tag-filter-select" style="width:auto;font-size:10px;"><option value="">No notebook</option></select>
+          </div>
+          <div class="modal-actions">
+            <button id="btn-history" class="btn-ghost" style="font-size:12px;padding:0 12px;height:32px;">History</button>
+            <button id="btn-delete" class="btn-delete">Delete</button>
+            <button id="btn-update" class="btn-save">Update</button>
+          </div>
+        </div>
+        <div id="version-panel" class="version-panel" style="display:none;">
+          <div class="version-panel-header">
+            <span class="modal-title">Edit history</span>
+            <button id="btn-close-versions" class="modal-close">&times;</button>
+          </div>
+          <div id="version-list" class="version-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="firebase/firebase-app-compat.js"></script>
+  <script src="firebase/firebase-auth-compat.js"></script>
+  <script src="firebase/firebase-firestore-compat.js"></script>
+  <script src="shared/firebase-config.js"></script>
+  <script src="shared/firebase-service.js"></script>
+  <script src="shared/markdown.js"></script>
+  <script src="shared/utils.js"></script>
+  <script src="shared/ambient.js"></script>
+  <script src="shared/themes.js"></script>
+  <script src="shared/particles.js"></script>
+  <script src="shared/toolbar.js"></script>
+  <script src="shared/slash-commands.js"></script>
+  <script src="shared/timer.js"></script>
+  <script src="tab.js"></script>
+</body>
+</html>
